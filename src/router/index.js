@@ -27,20 +27,6 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/second-page',
-      name: 'second-page',
-      component: () => import('@/views/SecondPage.vue'),
-      meta: {
-        pageTitle: 'Second Page',
-        breadcrumb: [
-          {
-            text: 'Second Page',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
       path: '/ajuan/kp',
       name: 'kp',
       component: () => import('@/views/kp/KPAll.vue'),
@@ -49,6 +35,24 @@ const router = new VueRouter({
         breadcrumb: [
           {
             text: 'Kerja Praktek',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/ajuan/kp/detail/:id',
+      name: 'kpdetail',
+      component: () => import('@/views/kp/KPDetail.vue'),
+      meta: {
+        pageTitle: 'Kerja Praktek',
+        breadcrumb: [
+          {
+            text: 'Kerja Praktek',
+            to: '/ajuan/kp',
+          },
+          {
+            text: 'Ajuan',
             active: true,
           },
         ],

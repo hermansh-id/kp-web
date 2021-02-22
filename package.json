@@ -27,6 +27,7 @@
     "core-js": "3.8.1",
     "echarts": "4.8.0",
     "firebase": "^8.2.7",
+    "firebase-admin": "^9.5.0",
     "jsonwebtoken": "8.5.1",
     "leaflet": "1.6.0",
     "portal-vue": "2.1.7",
@@ -50,6 +51,7 @@
     "vue-form-wizard": "0.8.4",
     "vue-good-table": "2.21.0",
     "vue-i18n": "8.22.2",
+    "vue-moment": "^4.1.0",
     "vue-perfect-scrollbar": "0.2.1",
     "vue-prism-component": "1.1.1",
     "vue-quill-editor": "3.0.6",
@@ -63,6 +65,7 @@
     "vue-tree-halower": "1.8.3",
     "vue2-leaflet": "2.5.2",
     "vuedraggable": "2.24.3",
+    "vuefire": "^2.2.5",
     "vuex": "3.6.0",
     "vuex-easy-firestore": "^1.36.0",
     "vuex-persistedstate": "^4.0.0-beta.3"

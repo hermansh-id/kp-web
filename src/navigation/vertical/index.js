@@ -5,8 +5,14 @@ export default [
     icon: 'HomeIcon',
   },
   {
-    title: 'Second Page',
-    route: 'second-page',
+    title: 'Pengajuan',
     icon: 'FileIcon',
+    children: [
+      {
+        title: 'Kerja Praktek',
+        route: 'kp',
+        icon: 'FileIcon',
+      },
+    ],
   },
 ]

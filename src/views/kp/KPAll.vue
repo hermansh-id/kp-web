@@ -68,18 +68,6 @@
                   Hapus
                 </b-button>
               </b-input-group-append>
-
-              <b-form-select
-                id="searchBy"
-                v-model="searchBy"
-                :options="sortOptions"
-              >
-                <template #first>
-                  <option value="">
-                    none
-                  </option>
-                </template>
-              </b-form-select>
             </b-input-group>
           </b-form-group>
           <b-button
@@ -102,7 +90,7 @@
       :busy.sync="busy"
       :per-page="perPage"
       :current-page="currentPage"
-      :items="getdata"
+      :items="kp"
       :fields="fields"
       :sort-by.sync="sortBy"
       :sort-desc.sync="sortDesc"
@@ -112,7 +100,7 @@
       @filtered="onFiltered"
     >
       <template #cell(tanggal)="data">
-        {{ Date(data.value.seconds * 1000) }}
+        {{ Date(data.value.seconds * 1000) | moment("DD MMMM YYYY") }}
       </template>
       <template #cell(action)="data">
         <feather-icon
@@ -182,6 +170,7 @@ import {
 } from 'bootstrap-vue'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import store from '@/store'
+import { ajuanCollection } from '@/firebase'
 
 export default {
   components: {
@@ -206,13 +195,13 @@ export default {
       pageOptions: [3, 5, 10],
       totalRows: 1,
       currentPage: 1,
-      sortBy: 'name',
-      searchBy: 'name',
+      sortBy: 'tanggal',
       sortDesc: false,
       sortDirection: 'asc',
       filter: null,
       filterOn: [],
       busy: false,
+      kp: [],
       fields: [
         {
           key: 'pengaju.nama', label: 'Nama', sortable: true,
@@ -234,70 +223,14 @@ export default {
         .map(f => ({ text: f.label, value: f.key }))
     },
   },
+  firestore: {
+    kp: ajuanCollection.where('jenis', '==', 'KP'),
+  },
   created() {
 
   },
   methods: {
 
-    getdata() {
-      const where = [
-        ['jenis', '==', 'KP'],
-      ]
-      // can have several parameters
-      const orderBy = ['tanggal']
-      return store.dispatch('ajuan/openDBChannel', { clauses: { where, orderBy } })
-        .then(({ streaming }) => {
-          streaming
-            .then(() => {
-            })
-            .catch(error => {
-              console.log(error.message)
-              this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title: 'Error',
-                  icon: 'BellIcon',
-                  text: error.message,
-                  variant: 'danger',
-                },
-              })
-            })
-          const { data } = store.state.ajuan
-          const vdata = Object.keys(data).map(key => ({ id: key, ...data[key] }))
-          console.log(vdata)
-          return vdata
-        })
-        .catch(error => {
-          console.log(error.message)
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title: 'Error',
-              icon: 'BellIcon',
-              text: error.message,
-              variant: 'danger',
-            },
-          })
-        })
-    //   return store.dispatch('ajuan/fetchAndAdd', { where: [['jenis', '==', 'KP']] }).then(() => {
-    //     const { data } = store.state.ajuan
-    //     const vdata = Object.keys(data).map(key => ({ id: key, ...data[key] }))
-    //     console.log(vdata)
-    //     return vdata
-    //   }).catch(() => {
-    //     this.busy = false
-    //     this.$toast({
-    //       component: ToastificationContent,
-    //       props: {
-    //         title: 'Error',
-    //         icon: 'BellIcon',
-    //         text: 'Gagal Mendapat Artikel',
-    //         variant: 'danger',
-    //       },
-    //     })
-    //     return []
-    //   })
-    },
     deleteData(data) {
       this.$swal({
         title: 'Apa Anda Yakin?',

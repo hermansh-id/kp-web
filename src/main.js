@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
 
+import { firestorePlugin } from 'vuefire'
 import router from './router'
 import store from './store'
 import App from './App.vue'
@@ -14,6 +15,9 @@ import './global-components'
 import '@/libs/portal-vue'
 import '@/libs/toastification'
 
+Vue.use(require('vue-moment'))
+
+Vue.use(firestorePlugin)
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
