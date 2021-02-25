@@ -70,6 +70,14 @@
               </b-input-group-append>
             </b-input-group>
           </b-form-group>
+          <b-button
+            size="sm"
+            variant="primary"
+            class="ml-2"
+            @click="$router.push('/pengguna/tambah')"
+          >
+            Tambah Pengguna
+          </b-button>
         </b-row>
       </div>
     </b-card-body>
@@ -78,6 +86,7 @@
       striped
       hover
       responsive
+      dense
       class="position-relative"
       :busy.sync="busy"
       :per-page="perPage"
@@ -91,14 +100,30 @@
       :filter-included-fields="filterOn"
       @filtered="onFiltered"
     >
-      <template #cell(tanggal)="data">
-        {{ Date(data.value.seconds * 1000) | moment("DD MMMM YYYY") }}
+      <template #cell(jurusan)="data">
+        {{ data.value || '-' }}
+      </template>
+      <template #cell(NPM)="data">
+        {{ data.value || '-' }}
       </template>
       <template #cell(action)="data">
         <feather-icon
-          icon="EyeIcon"
+          v-b-tooltip.hover.top="'Ganti Password'"
+          icon="LockIcon"
           class="mr-50"
-          @click="$router.push(`/ajuan/kp/detail/${data.item.id}`)"
+          @click="gantiPassword(data)"
+        />
+        <feather-icon
+          v-b-tooltip.hover.top="'Edit Pengguna!'"
+          icon="EditIcon"
+          class="mr-50"
+          @click="$router.push('/pengguna/edit/'+data.item.id)"
+        />
+        <feather-icon
+          v-b-tooltip.hover.top="'Hapus Pengguna'"
+          icon="TrashIcon"
+          class="mr-50"
+          @click="deleteData(data)"
         />
       </template>
     </b-table>
@@ -159,10 +184,11 @@ import {
   BCard,
   BRow,
   BTable, BFormGroup, BFormSelect, BPagination, BInputGroup, BFormInput, BInputGroupAppend, BButton, BCardBody,
+  VBTooltip,
 } from 'bootstrap-vue'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import store from '@/store'
-import { ajuanCollection } from '@/firebase'
+import { usersCollection, auth } from '@/firebase'
+import axios from '@axios'
 
 export default {
   components: {
@@ -180,14 +206,16 @@ export default {
     BButton,
     BCardBody,
   },
+  directives: {
+    'b-tooltip': VBTooltip,
+  },
   data() {
     return {
-      perPage: 5,
+      perPage: 10,
       dataselect: null,
-      pageOptions: [3, 5, 10],
-      totalRows: 1,
+      pageOptions: [5, 10, 20, 50, 100],
       currentPage: 1,
-      sortBy: 'tanggal',
+      sortBy: 'nama',
       sortDesc: false,
       sortDirection: 'asc',
       filter: null,
@@ -196,13 +224,14 @@ export default {
       kp: [],
       fields: [
         {
-          key: 'pengaju.nama', label: 'Nama', sortable: true,
+          key: 'nama', label: 'Nama', sortable: true,
         },
         {
-          key: 'pengaju.jurusan', label: 'Jurusan', sortable: true,
+          key: 'jurusan', label: 'Jurusan', sortable: true,
         },
-        { key: 'pengaju.NPM', label: 'NPM', sortable: true },
-        { key: 'tanggal', label: 'Tanggal', sortable: true },
+        { key: 'email', label: 'Email', sortable: true },
+        { key: 'NPM', label: 'NPM', sortable: true },
+        { key: 'jabatan', label: 'Jabatan', sortable: true },
         { key: 'action', label: 'Aksi' },
       ],
     }
@@ -220,19 +249,62 @@ export default {
       }
       return this.kp.map(r => ({ ...r, id: r.id }))
     },
+    totalRows() {
+      return this.kpId.length
+    },
   },
   firestore: {
-    kp: ajuanCollection.where('jenis', '==', 'KP'),
+    kp: usersCollection,
   },
   created() {
 
   },
   methods: {
+    gantiPassword(data) {
+      this.$swal({
+        title: 'Apa Anda Yakin?',
+        text: `Reset password ${data.item.nama} akan dikirim lewat email`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ganti Password',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+        },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          // eslint-disable-next-line no-underscore-dangle
+          auth.sendPasswordResetEmail(data.item.email).then(() => {
+            this.$toast({
+              component: ToastificationContent,
+              props: {
+                title: 'Berhasil',
+                icon: 'BellIcon',
+                text: 'Berhasil Mengirim Email Reset Password Pengguna',
+                variant: 'success',
+              },
+            })
+            this.$refs.tableartikel.refresh()
+          }).catch(err => {
+            this.$toast({
+              component: ToastificationContent,
+              props: {
+                title: 'Error',
+                icon: 'BellIcon',
+                text: err.message,
+                variant: 'danger',
+              },
+            })
+          })
+        }
+      })
+    },
 
     deleteData(data) {
       this.$swal({
         title: 'Apa Anda Yakin?',
-        text: `Anda akan menghapus ${data.item.name}`,
+        text: `Anda akan menghapus ${data.item.nama}`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Hapus',
@@ -244,13 +316,13 @@ export default {
       }).then(result => {
         if (result.value) {
           // eslint-disable-next-line no-underscore-dangle
-          store.dispatch('artikel/hapusArtikel', data.item._id).then(() => {
+          axios.delete(`user/${data.item.id}`).then(() => {
             this.$toast({
               component: ToastificationContent,
               props: {
-                title: 'Sukses',
+                title: 'Berhasil',
                 icon: 'BellIcon',
-                text: 'Data berhasil dihapus',
+                text: 'Berhasil Menghapus Pengguna',
                 variant: 'success',
               },
             })

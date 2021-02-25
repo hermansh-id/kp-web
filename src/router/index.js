@@ -14,13 +14,63 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/Home.vue'),
+      component: () => import('@/views/dashboard/Dashboard.vue'),
       meta: {
         requiresAuth: true,
         pageTitle: 'Home',
         breadcrumb: [
           {
             text: 'Home',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/pengguna',
+      name: 'pengguna',
+      component: () => import('@/views/pengguna/PenggunaAll.vue'),
+      meta: {
+        pageTitle: 'Pengguna',
+        breadcrumb: [
+          {
+            text: 'Pengguna',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/pengguna/edit/:id',
+      name: 'editpengguna',
+      component: () => import('@/views/pengguna/PenggunaEdit.vue'),
+      meta: {
+        pageTitle: 'Pengguna',
+        breadcrumb: [
+          {
+            text: 'Pengguna',
+            to: '/pengguna',
+          },
+          {
+            text: 'Edit Pengguna',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/pengguna/tambah',
+      name: 'addpengguna',
+      component: () => import('@/views/pengguna/PenggunaAdd.vue'),
+      meta: {
+        pageTitle: 'Tambah Pengguna',
+        breadcrumb: [
+          {
+            text: 'Pengguna',
+            to: '/pengguna',
+          },
+          {
+            text: 'Tambah Pengguna',
             active: true,
           },
         ],
@@ -41,6 +91,34 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/ajuan/kak',
+      name: 'kak',
+      component: () => import('@/views/kak/KAKAll.vue'),
+      meta: {
+        pageTitle: 'Keterangan Aktif Kuliah',
+        breadcrumb: [
+          {
+            text: 'Keterangan Aktif Kuliah',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/ajuan/ta',
+      name: 'ta',
+      component: () => import('@/views/ta/TAAll.vue'),
+      meta: {
+        pageTitle: 'Tugas Akhir',
+        breadcrumb: [
+          {
+            text: 'Tugas Akhir',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
       path: '/ajuan/kp/detail/:id',
       name: 'kpdetail',
       component: () => import('@/views/kp/KPDetail.vue'),
@@ -50,6 +128,42 @@ const router = new VueRouter({
           {
             text: 'Kerja Praktek',
             to: '/ajuan/kp',
+          },
+          {
+            text: 'Ajuan',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/ajuan/kak/detail/:id',
+      name: 'kakdetail',
+      component: () => import('@/views/kak/KAKDetail.vue'),
+      meta: {
+        pageTitle: 'Keterangan Aktif Kuliah',
+        breadcrumb: [
+          {
+            text: 'Keterangan Aktif Kuliah',
+            to: '/ajuan/kak',
+          },
+          {
+            text: 'Ajuan',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/ajuan/ta/detail/:id',
+      name: 'tadetail',
+      component: () => import('@/views/ta/TADetail.vue'),
+      meta: {
+        pageTitle: 'Tugas Akhir',
+        breadcrumb: [
+          {
+            text: 'Tugas Akhir',
+            to: '/ajuan/ta',
           },
           {
             text: 'Ajuan',

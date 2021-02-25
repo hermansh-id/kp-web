@@ -1,263 +1,299 @@
 <template>
-  <b-card-code title="Detail Usulan Kerja Praktek">
-    <app-timeline>
+  <b-card title="Detail Usulan Kerja Praktek">
+    <b-skeleton-wrapper :loading="loading">
+      <template #loading>
+        <b-card>
+          <b-skeleton width="85%" />
+          <b-skeleton width="55%" />
+          <b-skeleton width="70%" />
+        </b-card>
+      </template>
 
-      <!-- 12 INVOICES HAVE BEEN PAID -->
-      <app-timeline-item icon="DollarSignIcon">
-        <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
-          <h6>12 Invoices have been paid</h6>
-          <small class="text-muted">12 min ago</small>
-        </div>
-        <p>Invoices have been paid to the company.</p>
-        <p>
-          <b-img
-            :src="require('@/assets/images/icons/pdf.png')"
-            height="auto"
-            width="20"
-            class="mr-1"
-          />
-          <span class="align-bottom">invoice.pdf</span>
-        </p>
-      </app-timeline-item>
-
-      <app-timeline-item
-        variant="secondary"
-        icon="UserIcon"
+      <app-timeline
+        v-if="item !== null"
       >
 
-        <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
-          <h6>Client Meeting</h6>
-          <small class="text-muted">45 min ago</small>
-        </div>
-        <p>Project meeting with john @10:15am.</p>
-        <b-media>
-          <template #aside>
-            <b-avatar :src="require('@/assets/images/avatars/12-small.png')" />
-          </template>
-          <h6>John Doe (Client)</h6>
-          <p>CEO of Infibeam</p>
-        </b-media>
-      </app-timeline-item>
-
-      <!-- FINANCIAL REPORT -->
-      <app-timeline-item
-        variant="success"
-        icon="FileTextIcon"
-      >
-
-        <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
-          <h6>Financial Report</h6>
-          <small class="text-muted">2 hours ago</small>
-        </div>
-        <p>Click the button below to read financial reports</p>
-        <b-button
-          v-b-toggle.report-list-with-icon
-          v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-          size="sm"
-          variant="outline-primary"
+        <!-- 12 INVOICES HAVE BEEN PAID -->
+        <app-timeline-item
+          variant="success"
+          icon="FileTextIcon"
         >
-          Show Report
-        </b-button>
-        <b-collapse id="report-list-with-icon">
-          <b-list-group
-            flush
-            class="mt-1"
-          >
-            <b-list-group-item
-              href="#"
-              class="d-flex justify-content-between align-items-center bg-transparent"
+          <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
+            <h6>Persyaratan usulan KP</h6>
+            <small class="text-muted">{{ new Date(item.tanggal.seconds * 1000) | moment("DD MMMM YYYY") }}</small>
+          </div>
+          <p>Mohon cek persyaratan.</p>
+          <b-row class="ml-0">
+            <div
+              class="mr-2"
             >
-              <span>Last Year's Profit: $20,000</span>
-              <feather-icon icon="Share2Icon" />
-            </b-list-group-item>
-            <b-list-group-item
-              href="#"
-              class="d-flex justify-content-between align-items-center bg-transparent"
-            >
-              <span>This Year's Profit: $25,000</span>
-              <feather-icon icon="Share2Icon" />
-            </b-list-group-item>
-            <b-list-group-item
-              href="#"
-              class="d-flex justify-content-between align-items-center bg-transparent"
-            >
-              <span>Last Year's Commision: $5,000</span>
-              <feather-icon icon="Share2Icon" />
-            </b-list-group-item>
-            <b-list-group-item
-              href="#"
-              class="d-flex justify-content-between align-items-center bg-transparent"
-            >
-              <span>This Year's Commision: $7,000</span>
-              <feather-icon icon="Share2Icon" />
-            </b-list-group-item>
-            <b-list-group-item
-              href="#"
-              class="d-flex justify-content-between align-items-center bg-transparent"
-            >
-              <span>This Year's Total Balance: $70,000</span>
-              <feather-icon icon="Share2Icon" />
-            </b-list-group-item>
-          </b-list-group>
-        </b-collapse>
-      </app-timeline-item>
+              <a
+                :href="item.syarat.ombus"
+                target="_blank"
+              >
+                <b-img
+                  :src="require('@/assets/images/icons/pdf.png')"
+                  height="auto"
+                  width="20"
+                  class="mr-1"
+                />
+                <span class="align-bottom">sertifikat OMBUS</span>
+              </a>
+            </div>
+            <div class="mr-5">
+              <a
+                :href="item.syarat.pbn"
+                target="_blank"
+              >
+                <b-img
+                  :src="require('@/assets/images/icons/pdf.png')"
+                  height="auto"
+                  width="20"
+                  class="mr-2"
+                />
+                <span class="align-bottom">sertifikat PBN</span>
+              </a></div>
+            <div class="mr-5">
+              <a
+                :href="item.syarat.transkrip"
+                target="_blank"
+              >
+                <b-img
+                  :src="require('@/assets/images/icons/pdf.png')"
+                  height="auto"
+                  width="20"
+                  class="mr-2"
+                />
+                <span class="align-bottom">Transkrip nilai</span>
+              </a></div>
+            <div class="mr-5">
+              <a
+                :href="item.syarat.persetujuan"
+                target="_blank"
+              >
+                <b-img
+                  :src="require('@/assets/images/icons/pdf.png')"
+                  height="auto"
+                  width="20"
+                  class="mr-2"
+                />
+                <span class="align-bottom">Persetujuan Wali Dosen</span>
+              </a></div>
+          </b-row>
+        </app-timeline-item>
 
-      <!-- INTERVIEW SCHEDULE -->
-      <app-timeline-item
-        variant="warning"
-        icon="MapPinIcon"
-      >
-        <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
-          <h6>Interview Schedule</h6>
-          <small class="text-muted">03:00 PM</small>
-        </div>
-        <p>Have to interview Katy Turner for the developer job.</p>
-        <div class="d-flex flex-sm-row flex-column justify-content-between align-items-start">
-          <b-media>
-            <template #aside>
-              <b-avatar :src="require('@/assets/images/avatars/1-small.png')" />
-            </template>
-            <h6>Katy Turner</h6>
-            <span class="text-muted">Javascript Developer</span>
-          </b-media>
-          <div>
-            <feather-icon
-              icon="MessageSquareIcon"
+        <app-timeline-item
+          variant="secondary"
+          icon="CheckIcon"
+        >
+
+          <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
+            <h6>Persetujuan Jurusan</h6>
+            <small class="text-muted">Disetujui 45 min</small>
+          </div>
+          <p>Mohon periksa persyaratan dan data detail usulan Kerja Praktek</p>
+          <b-button
+            v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+            size="sm"
+            class="mr-2"
+            variant="outline-primary"
+          >
+            Setuju
+          </b-button>
+          <b-button
+            v-b-toggle.report-list-with-icon
+            v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+            size="sm"
+            variant="outline-danger"
+          >
+            Tolak
+          </b-button>
+        </app-timeline-item>
+
+        <!-- FINANCIAL REPORT -->
+        <app-timeline-item
+          variant="secondary"
+          icon="FileTextIcon"
+        >
+
+          <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
+            <h6>Pembuatan surat permohonan</h6>
+            <small class="text-muted">2 hours ago</small>
+          </div>
+          <p>Pembuatan surat dikonfirmasi tiap tahapannya</p>
+          <b-button
+            v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+            size="sm"
+            variant="outline-primary"
+            class="mr-2"
+          >
+            Konfirmasi Pembuatan
+          </b-button>
+          <b-button
+            v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+            size="sm"
+            variant="outline-primary"
+          >
+            Konfirmasi Tanda Tangan
+          </b-button>
+        </app-timeline-item>
+
+        <!-- INTERVIEW SCHEDULE -->
+        <app-timeline-item
+          variant="secondary"
+          icon="UploadIcon"
+        >
+          <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
+            <h6>Upload Surat Permohonan</h6>
+            <small class="text-muted">03:00 PM</small>
+          </div>
+          <p>Mohon cek terlebih dahulu sebelum konfirmasi.</p>
+
+          <b-button
+            v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+            size="sm"
+            variant="outline-primary"
+          >
+            Upload file
+          </b-button>
+        </app-timeline-item>
+
+        <!-- ONLINE STORE -->
+        <app-timeline-item
+          variant="secondary"
+          icon="CheckIcon"
+        >
+
+          <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
+            <h6>Konfirmasi Balasan</h6>
+            <small class="text-muted">03:00 PM</small>
+          </div>
+          <p>Surat Balasan sudah diterima</p>
+
+          <a
+            :href="item.syarat.ombus"
+            target="_blank"
+          >
+            <b-img
+              :src="require('@/assets/images/icons/pdf.png')"
+              height="auto"
+              width="20"
               class="mr-1"
             />
-            <feather-icon icon="PhoneCallIcon" />
+            <span class="align-bottom">Surat Balasan</span>
+          </a>
+        </app-timeline-item>
+
+        <!-- FINANCIAL REPORT -->
+        <app-timeline-item
+          variant="secondary"
+          icon="FileTextIcon"
+        >
+
+          <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
+            <h6>Pembuatan surat keputusan</h6>
+            <small class="text-muted">2 hours ago</small>
           </div>
-        </div>
-      </app-timeline-item>
-
-      <!-- ONLINE STORE -->
-      <app-timeline-item
-        variant="danger"
-        icon="ShoppingBagIcon"
-      >
-
-        <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
-          <h6>Online Store</h6>
-          <small class="text-muted">03:00 PM</small>
-        </div>
-        <p>Develop an online store of electronic devices for the provided layout, as well as develop a mobile version of it. The must be compatible with any CMS.</p>
-        <div class="d-flex flex-sm-row flex-column justify-content-between align-items-start">
-          <!-- 1st Col -->
-          <div class="mb-1 mb-sm-0">
-            <span class="text-muted mb-50">Developers</span>
-
-            <div>
-              <b-avatar
-                text="A"
-                class="mr-50"
-                size="24"
-                variant="light-primary"
-              />
-              <b-avatar
-                text="B"
-                class="mr-50"
-                size="24"
-                variant="light-success"
-              />
-              <b-avatar
-                text="C"
-                class="mr-50"
-                size="24"
-                variant="light-danger"
-              />
-            </div>
-          </div>
-          <!-- 2nd Col -->
-          <div class="mb-1 mb-sm-0">
-            <span class="text-muted mb-50 d-block">Deadline</span>
-            <span>20 Dec 2077</span>
-          </div>
-          <!-- 3rd Col -->
-          <div>
-            <span class="text-muted mb-50 d-block">Budget</span>
-            <span>$50,000</span>
-          </div>
-        </div>
-      </app-timeline-item>
-
-      <!-- DESIGNING UI -->
-      <app-timeline-item
-        variant="info"
-        icon="GridIcon"
-      >
-
-        <div class="d-flex align-items-start flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-50">
-          <h6>Designing UI</h6>
-          <b-badge
-            pill
-            variant="light-primary"
+          <p>Pembuatan surat dikonfirmasi tiap tahapannya</p>
+          <b-button
+            v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+            size="sm"
+            variant="outline-primary"
+            class="mr-2"
           >
-            Design
-          </b-badge>
-        </div>
-        <p>Our main goal is to design a new mobile application for our client. The customer wants a clean &amp; flat design.</p>
-        <div>
-          <span class="text-muted">
-            Participants
-          </span>
-          <b-avatar-group
-            size="32px"
-            class="mt-50"
+            Konfirmasi Pembuatan
+          </b-button>
+          <b-button
+            v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+            size="sm"
+            variant="outline-primary"
           >
-            <b-avatar
-              v-b-tooltip.hover
-              class="pull-up"
-              title="Jenny Looper"
-              :src="require('@/assets/images/portrait/small/avatar-s-5.jpg')"
-            />
-            <b-avatar
-              v-b-tooltip.hover
-              class="pull-up"
-              title="Jennifer Lopez"
-              :src="require('@/assets/images/portrait/small/avatar-s-6.jpg')"
-            />
-            <b-avatar
-              v-b-tooltip.hover
-              class="pull-up"
-              title="Arya Stark"
-              :src="require('@/assets/images/portrait/small/avatar-s-7.jpg')"
-            />
-          </b-avatar-group>
-        </div>
-      </app-timeline-item>
-    </app-timeline>
+            Konfirmasi Tanda Tangan
+          </b-button>
+        </app-timeline-item>
 
-  </b-card-code>
+        <!-- INTERVIEW SCHEDULE -->
+        <app-timeline-item
+          variant="secondary"
+          icon="UploadIcon"
+        >
+          <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
+            <h6>Upload Surat Keterangan</h6>
+            <small class="text-muted">03:00 PM</small>
+          </div>
+          <p>Mohon cek terlebih dahulu sebelum konfirmasi.</p>
+
+          <b-button
+            v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+            size="sm"
+            variant="outline-primary"
+          >
+            Upload file
+          </b-button>
+        </app-timeline-item>
+
+        <!-- INTERVIEW SCHEDULE -->
+        <app-timeline-item
+          variant="secondary"
+          icon="CheckIcon"
+        >
+          <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
+            <h6>Selesai</h6>
+            <small class="text-muted">03:00 PM</small>
+          </div>
+          <p>Usulan sudah selesai</p>
+
+          <b-button
+            v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+            size="sm"
+            variant="outline-danger"
+          >
+            Hapus usulan
+          </b-button>
+        </app-timeline-item>
+
+      </app-timeline>
+
+    </b-skeleton-wrapper></b-card>
+
 </template>
 
 <script>
-import BCardCode from '@core/components/b-card-code'
 import {
-  BImg, BAvatar, BMedia, BButton, BCollapse, VBToggle, BListGroup, BListGroupItem, BAvatarGroup, BBadge, VBTooltip,
+  BImg, BButton, VBToggle, VBTooltip, BRow,
+  BCard,
+  BSkeleton,
+  BSkeletonWrapper,
 } from 'bootstrap-vue'
 import AppTimeline from '@core/components/app-timeline/AppTimeline.vue'
 import AppTimelineItem from '@core/components/app-timeline/AppTimelineItem.vue'
 import Ripple from 'vue-ripple-directive'
+import { ajuanCollection } from '@/firebase'
+// import route from '@/router'
 
 export default {
   components: {
     AppTimeline,
     AppTimelineItem,
-    BCardCode,
+    BCard,
+    BSkeleton,
+    BSkeletonWrapper,
     BImg,
-    BMedia,
-    BAvatar,
     BButton,
-    BCollapse,
-    BListGroup,
-    BListGroupItem,
-    BAvatarGroup,
-    BBadge,
+    BRow,
   },
   directives: { 'b-toggle': VBToggle, 'b-tooltip': VBTooltip, Ripple },
   data() {
     return {
+      item: null,
+      id: this.$route.params.id,
+      loading: true,
     }
+  },
+  created() {
+    this.$bind('item', ajuanCollection.doc(this.$route.params.id)).then(() => {
+      this.loading = false
+    })
   },
 }
 </script>

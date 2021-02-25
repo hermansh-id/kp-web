@@ -98,7 +98,7 @@
         <feather-icon
           icon="EyeIcon"
           class="mr-50"
-          @click="$router.push(`/ajuan/kp/detail/${data.item.id}`)"
+          @click="$router.push(`/ajuan/kak/detail/${data.item.id}`)"
         />
       </template>
     </b-table>

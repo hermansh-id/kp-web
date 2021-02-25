@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
-
+import AsyncComputed from 'vue-async-computed'
 import { firestorePlugin } from 'vuefire'
 import router from './router'
 import store from './store'
@@ -14,6 +14,7 @@ import './global-components'
 // 3rd party plugins
 import '@/libs/portal-vue'
 import '@/libs/toastification'
+import '@/libs/sweet-alerts'
 
 Vue.use(require('vue-moment'))
 
@@ -21,7 +22,7 @@ Vue.use(firestorePlugin)
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
-
+Vue.use(AsyncComputed)
 // Composition API
 Vue.use(VueCompositionAPI)
 
