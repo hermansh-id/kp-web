@@ -1,10 +1,12 @@
 import { $themeBreakpoints } from '@themeConfig'
+import axios from '@axios'
 
 export default {
   namespaced: true,
   state: {
     windowWidth: 0,
     shallShowOverlay: false,
+    stat: {},
   },
   getters: {
     currentBreakPoint: state => {
@@ -23,6 +25,20 @@ export default {
     TOGGLE_OVERLAY(state, val) {
       state.shallShowOverlay = val !== undefined ? val : !state.shallShowOverlay
     },
+    STAT(state, val) {
+      state.stat = val
+    },
   },
-  actions: {},
+  actions: {
+    ambilStat({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios.get('/statistic')
+          .then(response => {
+            commit('STAT', response.data)
+            resolve(response.data)
+          })
+          .catch(error => { reject(error) })
+      })
+    },
+  },
 }

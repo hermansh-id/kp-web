@@ -6,9 +6,9 @@ export default {
     layout: {
       isRTL: $themeConfig.layout.isRTL,
       skin: localStorage.getItem('vuexy-skin') || $themeConfig.layout.skin,
-      routerTransition: $themeConfig.layout.routerTransition,
-      type: $themeConfig.layout.type,
-      contentWidth: $themeConfig.layout.contentWidth,
+      routerTransition: 'slide-fade',
+      type: 'vertical',
+      contentWidth: 'boxed',
       menu: {
         hidden: $themeConfig.layout.menu.hidden,
       },

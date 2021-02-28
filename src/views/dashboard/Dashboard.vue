@@ -5,7 +5,13 @@
         xl="8"
         md="6"
       >
-        <ecommerce-statistics :data="data.statisticsItems" />
+        <ecommerce-statistics :data="data.kp" />
+      </b-col>
+      <b-col
+        xl="4"
+        md="6"
+      >
+        <chartjs-component-doughnut-chart :data="data" />
       </b-col>
     </b-row>
 
@@ -14,7 +20,8 @@
 
 <script>
 import { BRow, BCol } from 'bootstrap-vue'
-
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import ChartjsComponentDoughnutChart from './ChartjsDoughnutChart.vue'
 // import EcommerceMedal from './EcommerceMedal.vue'
 import EcommerceStatistics from './EcommerceStatistics.vue'
 // import EcommerceRevenueReport from './EcommerceRevenueReport.vue'
@@ -31,9 +38,12 @@ export default {
   components: {
     BRow,
     BCol,
+    // eslint-disable-next-line vue/no-unused-components
+    ToastificationContent,
 
     // EcommerceMedal,
     EcommerceStatistics,
+    ChartjsComponentDoughnutChart,
     // EcommerceRevenueReport,
     // EcommerceOrderChart,
     // EcommerceProfitChart,
@@ -46,11 +56,26 @@ export default {
   },
   data() {
     return {
-      data: {},
+      // data: {},
     }
   },
+  computed: {
+    data() {
+      return this.$store.state.app.stat
+    },
+  },
   created() {
-
+    this.$store.dispatch('app/ambilStat').catch(err => {
+      this.$toast({
+        component: ToastificationContent,
+        props: {
+          title: 'Error',
+          icon: 'BellIcon',
+          text: err.response.data.message,
+          variant: 'danger',
+        },
+      })
+    })
   },
 }
 </script>
