@@ -222,7 +222,7 @@ export default {
     },
   },
   firestore: {
-    kp: ajuanCollection.where('jenis', '==', 'KP'),
+    kp: ajuanCollection.where('jenis', '==', 'TA'),
   },
   created() {
 

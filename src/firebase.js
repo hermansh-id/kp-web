@@ -18,6 +18,7 @@ const fapp = firebase.initializeApp(firebaseConfig)
 // utils
 const db = fapp.firestore()
 const auth = fapp.auth()
+const { Timestamp, GeoPoint } = firebase.firestore
 
 function initFirebase() {
   return new Promise((resolve, reject) => {
@@ -44,4 +45,6 @@ export {
   firebase,
   usersCollection,
   ajuanCollection,
+  Timestamp,
+  GeoPoint,
 }
