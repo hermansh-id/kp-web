@@ -105,20 +105,6 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/ajuan/ta',
-      name: 'ta',
-      component: () => import('@/views/ta/TAAll.vue'),
-      meta: {
-        pageTitle: 'Tugas Akhir',
-        breadcrumb: [
-          {
-            text: 'Tugas Akhir',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
       path: '/ajuan/kp/detail/:id',
       name: 'kpdetail',
       component: () => import('@/views/kp/KPDetail.vue'),
@@ -146,24 +132,6 @@ const router = new VueRouter({
           {
             text: 'Keterangan Aktif Kuliah',
             to: '/ajuan/kak',
-          },
-          {
-            text: 'Ajuan',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: '/ajuan/ta/detail/:id',
-      name: 'tadetail',
-      component: () => import('@/views/ta/TADetail.vue'),
-      meta: {
-        pageTitle: 'Tugas Akhir',
-        breadcrumb: [
-          {
-            text: 'Tugas Akhir',
-            to: '/ajuan/ta',
           },
           {
             text: 'Ajuan',

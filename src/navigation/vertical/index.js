@@ -23,11 +23,6 @@ export default [
         route: 'kak',
         icon: 'FileIcon',
       },
-      {
-        title: 'Tugas Akhir',
-        route: 'ta',
-        icon: 'FileIcon',
-      },
     ],
   },
 ]
