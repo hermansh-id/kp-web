@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Pengajuan KP Menurut Jurusan">
+  <b-card :title="title">
     <!-- chart -->
     <chartjs-component-doughnut-chart
       :height="275"
@@ -20,7 +20,7 @@
         <span class="font-weight-bold ml-75 mr-25">{{ stock.device }}</span>
       </div>
       <div>
-        <span>{{ stock.percentage }}%</span>
+        <span>{{ stock.percentage }}% ({{ stock.stok }} orang)</span>
       </div>
     </div>
     <!--/ stocks -->
@@ -41,6 +41,10 @@ export default {
     data: {
       type: Object,
       default: () => {},
+    },
+    title: {
+      type: String,
+      default: () => 'Pengajuan',
     },
   },
   data() {
@@ -76,7 +80,7 @@ export default {
           datasets: [
             {
               labels: ['Informatika', 'Teknik Elektro', 'Teknik Sipil'],
-              data: [(this.data.kp.informatika / this.data.kp.kuantitas) * 100, (this.data.kp.elektro / this.data.kp.kuantitas) * 100, (this.data.kp.sipil / this.data.kp.kuantitas) * 100],
+              data: [(this.data.informatika / this.data.kuantitas) * 100, (this.data.elektro / this.data.kuantitas) * 100, (this.data.sipil / this.data.kuantitas) * 100],
               backgroundColor: ['#28dac6', '#ffe802', $themeColors.primary],
               borderWidth: 0,
               pointStyle: 'rectRounded',
@@ -86,13 +90,13 @@ export default {
       },
       stockData: [
         {
-          device: 'Informatika', color: 'text-primary', percentage: (this.data.kp.informatika / this.data.kp.kuantitas) * 100,
+          device: 'Informatika', color: 'text-primary', percentage: (this.data.informatika / this.data.kuantitas) * 100, stok: this.data.informatika,
         },
         {
-          device: 'Teknik Sipil', color: 'text-warning', percentage: (this.data.kp.sipil / this.data.kp.kuantitas) * 100,
+          device: 'Teknik Sipil', color: 'text-warning', percentage: (this.data.sipil / this.data.kuantitas) * 100, stok: this.data.sipil,
         },
         {
-          device: 'Teknik Elektro', color: 'text-success', percentage: (this.data.kp.elektro / this.data.kp.kuantitas) * 100,
+          device: 'Teknik Elektro', color: 'text-success', percentage: (this.data.elektro / this.data.kuantitas) * 100, stok: this.data.elektro,
         },
       ],
     }

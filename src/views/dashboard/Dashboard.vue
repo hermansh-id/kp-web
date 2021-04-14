@@ -2,16 +2,22 @@
   <section id="dashboard-ecommerce">
     <b-row class="match-height">
       <b-col
-        xl="8"
-        md="6"
+        xl="4"
+        md="4"
       >
-        <ecommerce-statistics :data="data.kp" />
+        <chartjs-component-doughnut-chart :data="data.pengajuan.total" title="Pengajuan Menurut Jurusan"/>
       </b-col>
       <b-col
         xl="4"
-        md="6"
+        md="4"
       >
-        <chartjs-component-doughnut-chart :data="data" />
+        <chartjs-component-doughnut-chart :data="data.pengajuan.kp" title="Pengajuan KP Menurut Jurusan"/>
+      </b-col>
+      <b-col
+        xl="4"
+        md="4"
+      >
+        <chartjs-component-doughnut-chart :data="data.pengajuan.kak" title="Pengajuan KAK Menurut Jurusan"/>
       </b-col>
     </b-row>
 
@@ -23,7 +29,7 @@ import { BRow, BCol } from 'bootstrap-vue'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import ChartjsComponentDoughnutChart from './ChartjsDoughnutChart.vue'
 // import EcommerceMedal from './EcommerceMedal.vue'
-import EcommerceStatistics from './EcommerceStatistics.vue'
+// import EcommerceStatistics from './EcommerceStatistics.vue'
 // import EcommerceRevenueReport from './EcommerceRevenueReport.vue'
 // import EcommerceOrderChart from './EcommerceOrderChart.vue'
 // import EcommerceProfitChart from './EcommerceProfitChart.vue'
@@ -42,13 +48,13 @@ export default {
     ToastificationContent,
 
     // EcommerceMedal,
-    EcommerceStatistics,
+    // EcommerceStatistics,
     ChartjsComponentDoughnutChart,
     // EcommerceRevenueReport,
     // EcommerceOrderChart,
     // EcommerceProfitChart,
     // EcommerceEarningsChart,
-    // EcommerceCompanyTable,
+    // EcommerceCompanyTable,s
     // EcommerceMeetup,
     // EcommerceBrowserStates,
     // EcommerceGoalOverview,

@@ -9,9 +9,9 @@ export const $themeBreakpoints = {}
 // APP CONFIG
 export const $themeConfig = {
   app: {
-    appName: 'Vuexy',
+    appName: 'FT UNSIL',
     // eslint-disable-next-line global-require
-    appLogoImage: require('@/assets/images/logo/logo.svg'),
+    appLogoImage: require('@/assets/images/logo/unsil.png'),
   },
   layout: {
     isRTL: false,

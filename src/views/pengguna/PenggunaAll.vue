@@ -114,7 +114,7 @@
           @click="gantiPassword(data)"
         />
         <feather-icon
-          v-b-tooltip.hover.top="'Edit Pengguna!'"
+          v-b-tooltip.hover.top="'Edit Pengguna'"
           icon="EditIcon"
           class="mr-50"
           @click="$router.push('/pengguna/edit/'+data.item.id)"
